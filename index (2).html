@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elshaday Bikis — Design Researcher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0F1117;
+  --bg2: #181B24;
+  --bg3: #1E2130;
+  --lime: #C8F135;
+  --white: #F0F0EC;
+  --mid: #6B6F7A;
+  --border: rgba(255,255,255,0.1);
+  --font: 'Archivo', sans-serif;
+  --nav-h: 64px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--white); font-family: var(--font); font-weight: 400; line-height: 1.5; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h); background: var(--bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; z-index: 1000; }
+.nav-logo { font-size: 0.85rem; font-weight: 800; color: var(--white); cursor: pointer; text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase; border: 2px solid var(--white); padding: 6px 12px; display: inline-block; transition: border-color 0.2s, color 0.2s; }
+.nav-logo:hover { border-color: var(--lime); color: var(--lime); }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-links { display: flex; gap: 4px; list-style: none; }
+.nav-links a { display: block; padding: 7px 16px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; color: var(--mid); text-decoration: none; text-transform: uppercase; transition: color 0.15s; cursor: pointer; border-radius: 2px; }
+.nav-links a:hover { color: var(--white); }
+.nav-links a.active { color: var(--lime); }
+.nav-cta { background: var(--lime); color: var(--bg); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 22px; border-radius: 100px; cursor: pointer; border: none; font-family: var(--font); transition: opacity 0.2s; text-decoration: none; display: inline-block; }
+.nav-cta:hover { opacity: 0.85; }
+
+/* PAGES */
+.page { display: none; min-height: 100vh; padding-top: var(--nav-h); }
+.page.active { display: block; }
+#case-detail { display: none; min-height: 100vh; padding-top: var(--nav-h); }
+#case-detail.active { display: block; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.fi { opacity: 0; animation: fadeUp 0.55s ease forwards; }
+.fi:nth-child(1) { animation-delay: 0.05s; }
+.fi:nth-child(2) { animation-delay: 0.13s; }
+.fi:nth-child(3) { animation-delay: 0.21s; }
+.fi:nth-child(4) { animation-delay: 0.29s; }
+.fi:nth-child(5) { animation-delay: 0.37s; }
+
+/* HOME */
+.home-hero { min-height: calc(100vh - var(--nav-h)); display: flex; flex-direction: column; justify-content: flex-end; padding: 0 40px 60px; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+.home-dots { position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(200,241,53,0.18) 1px, transparent 1px); background-size: 28px 28px; pointer-events: none; }
+.home-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mid); margin-bottom: 20px; position: relative; }
+.home-h1 { font-size: clamp(4rem, 10vw, 9.5rem); font-weight: 900; line-height: 0.92; letter-spacing: -0.04em; color: var(--white); margin-bottom: 48px; position: relative; }
+.home-h1 .lime { color: var(--lime); }
+.home-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; position: relative; align-items: end; }
+.home-statement { font-size: 1.05rem; color: rgba(240,240,236,0.7); line-height: 1.7; max-width: 480px; }
+.home-right-block { display: flex; flex-direction: column; align-items: flex-end; gap: 28px; }
+.home-stats { display: flex; gap: 0; border: 1px solid var(--border); }
+.home-stat { padding: 20px 28px; border-right: 1px solid var(--border); text-align: center; }
+.home-stat:last-child { border-right: none; }
+.home-stat-val { font-size: 2.2rem; font-weight: 900; letter-spacing: -0.04em; color: var(--lime); display: block; line-height: 1; }
+.home-stat-label { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-top: 6px; display: block; }
+.home-actions { display: flex; gap: 12px; }
+.btn { display: inline-block; padding: 13px 28px; font-size: 0.72rem; font-weight: 700; font-family: var(--font); letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: all 0.15s; border: none; border-radius: 2px; }
+.btn-lime { background: var(--lime); color: var(--bg); }
+.btn-lime:hover { opacity: 0.85; }
+.btn-outline { background: transparent; color: var(--white); border: 1px solid var(--border); }
+.btn-outline:hover { border-color: var(--white); }
+
+/* WORK */
+.work-wrap { max-width: 1200px; margin: 0 auto; padding: 80px 40px 120px; }
+.page-eyebrow { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--lime); margin-bottom: 20px; }
+.page-h1 { font-size: clamp(2.4rem, 5vw, 4.5rem); font-weight: 900; line-height: 0.95; letter-spacing: -0.03em; color: var(--white); margin-bottom: 64px; }
+.case-list { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
+.case-row { display: grid; grid-template-columns: 56px 1fr 180px; gap: 32px; padding: 36px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.2s, padding 0.2s; position: relative; }
+.case-row:hover { background: var(--bg2); padding-left: 20px; padding-right: 20px; margin: 0 -20px; }
+.case-row:hover .case-row-title { color: var(--lime); }
+.case-row:hover .case-num { color: var(--lime); }
+.case-num { font-size: 0.7rem; font-weight: 700; color: var(--mid); letter-spacing: 0.08em; padding-top: 6px; transition: color 0.2s; }
+.case-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.case-tag { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; color: var(--mid); text-transform: uppercase; border: 1px solid var(--border); padding: 3px 10px; border-radius: 100px; }
+.case-row-title { font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 800; line-height: 1.2; color: var(--white); margin-bottom: 8px; transition: color 0.2s; letter-spacing: -0.02em; }
+.case-row-desc { font-size: 0.85rem; color: var(--mid); line-height: 1.65; max-width: 520px; }
+.case-meta { text-align: right; padding-top: 6px; }
+.meta-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 2px; }
+.meta-val { font-size: 0.82rem; font-weight: 600; color: var(--white); margin-bottom: 12px; }
+
+/* CASE DETAIL */
+.detail-wrap { max-width: 800px; margin: 0 auto; padding: 52px 40px 140px; }
+.detail-back { display: inline-flex; align-items: center; gap: 8px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); cursor: pointer; margin-bottom: 52px; background: none; border: none; font-family: var(--font); transition: color 0.2s; padding: 0; }
+.detail-back:hover { color: var(--lime); }
+.detail-kicker { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lime); margin-bottom: 16px; }
+.detail-h1 { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.03em; color: var(--white); margin-bottom: 16px; }
+.detail-sub { font-size: 1rem; color: rgba(240,240,236,0.6); line-height: 1.7; margin-bottom: 40px; }
+.detail-meta { display: flex; border: 1px solid var(--border); margin-bottom: 64px; }
+.d-meta-block { padding: 20px 28px; border-right: 1px solid var(--border); flex: 1; }
+.d-meta-block:last-child { border-right: none; }
+.d-meta-lbl { font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--mid); margin-bottom: 4px; }
+.d-meta-val { font-size: 0.9rem; font-weight: 700; color: var(--white); }
+.d-h2 { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.02em; color: var(--white); margin: 52px 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.d-p { font-size: 0.95rem; color: rgba(240,240,236,0.72); line-height: 1.85; margin-bottom: 14px; }
+.d-ul { list-style: none; margin-bottom: 16px; }
+.d-ul li { font-size: 0.93rem; color: rgba(240,240,236,0.72); line-height: 1.75; padding: 10px 0 10px 24px; border-bottom: 1px solid var(--border); position: relative; }
+.d-ul li::before { content: '→'; position: absolute; left: 0; color: var(--lime); }
+.d-methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin: 20px 0 28px; }
+.d-method { background: var(--bg2); padding: 20px 18px; }
+.d-method-name { font-size: 0.8rem; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+.d-method-desc { font-size: 0.75rem; color: var(--mid); line-height: 1.6; }
+.d-pull { border-left: 3px solid var(--lime); padding: 20px 28px; margin: 32px 0; background: var(--bg2); }
+.d-pull p { font-size: 1.1rem; font-weight: 600; font-style: italic; color: var(--white); line-height: 1.55; }
+.d-findings { border: 1px solid var(--border); margin: 16px 0; }
+.d-finding { display: grid; grid-template-columns: 80px 1fr; gap: 20px; padding: 16px 20px; border-bottom: 1px solid var(--border); align-items: center; }
+.d-finding:last-child { border-bottom: none; }
+.d-finding-stat { font-size: 1.5rem; font-weight: 900; color: var(--lime); line-height: 1; letter-spacing: -0.03em; }
+.d-finding-text { font-size: 0.85rem; color: rgba(240,240,236,0.72); line-height: 1.55; }
+.d-outcome { background: var(--lime); border-radius: 4px; padding: 28px 32px; margin: 20px 0; }
+.d-outcome p { font-size: 0.95rem; color: var(--bg); line-height: 1.8; font-weight: 500; }
+.d-learnings { display: flex; flex-direction: column; border: 1px solid var(--border); margin-top: 20px; }
+.d-learning { padding: 24px; border-bottom: 1px solid var(--border); }
+.d-learning:last-child { border-bottom: none; }
+.d-learning-title { font-size: 0.9rem; font-weight: 800; color: var(--white); margin-bottom: 6px; }
+.d-learning-body { font-size: 0.85rem; color: var(--mid); line-height: 1.7; }
+.d-recs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin: 20px 0; }
+.d-rec { background: var(--bg2); padding: 22px 20px; }
+.d-rec-title { font-size: 0.8rem; font-weight: 800; color: var(--lime); margin-bottom: 8px; }
+.d-rec-body { font-size: 0.78rem; color: var(--mid); line-height: 1.65; }
+
+/* AFTER HOURS */
+.ah-wrap { max-width: 1200px; margin: 0 auto; padding: 80px 40px 120px; }
+.ah-intro { max-width: 480px; margin-bottom: 64px; }
+.ah-intro p { font-size: 1rem; color: rgba(240,240,236,0.65); line-height: 1.8; }
+.ah-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.ah-item { background: var(--bg); padding: 40px 36px; transition: background 0.2s; }
+.ah-item:hover { background: var(--bg2); }
+.ah-num { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em; color: var(--lime); margin-bottom: 20px; text-transform: uppercase; }
+.ah-title { font-size: 1.4rem; font-weight: 900; color: var(--white); margin-bottom: 14px; letter-spacing: -0.02em; }
+.ah-body { font-size: 0.85rem; color: var(--mid); line-height: 1.8; }
+
+/* CONTACT */
+.contact-wrap { max-width: 800px; margin: 0 auto; padding: 120px 40px 140px; }
+.contact-h1 { font-size: clamp(3rem, 8vw, 7rem); font-weight: 900; line-height: 0.95; letter-spacing: -0.04em; color: var(--white); margin-bottom: 32px; }
+.contact-h1 .lime { color: var(--lime); }
+.contact-sub { font-size: 1rem; color: rgba(240,240,236,0.65); line-height: 1.8; margin-bottom: 64px; max-width: 440px; }
+.contact-list { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
+.contact-link { display: flex; align-items: center; justify-content: space-between; padding: 28px 0; border-bottom: 1px solid var(--border); text-decoration: none; color: var(--white); transition: padding-left 0.2s; }
+.contact-link:hover { padding-left: 16px; }
+.contact-link:hover .cl-arrow, .contact-link:hover .cl-val { color: var(--lime); }
+.cl-left { display: flex; flex-direction: column; gap: 4px; }
+.cl-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); }
+.cl-val { font-size: 1.1rem; font-weight: 700; color: var(--white); transition: color 0.2s; }
+.cl-arrow { font-size: 1.2rem; color: var(--mid); transition: color 0.2s; }
+.contact-note { font-size: 0.78rem; color: var(--mid); line-height: 1.7; margin-top: 48px; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .home-hero { padding: 40px 20px 48px; }
+  .home-bottom { grid-template-columns: 1fr; gap: 32px; }
+  .home-right-block { align-items: flex-start; }
+  .work-wrap, .ah-wrap, .contact-wrap, .detail-wrap { padding: 48px 20px 80px; }
+  .case-row { grid-template-columns: 40px 1fr; gap: 16px; }
+  .case-meta { display: none; }
+  .ah-grid { grid-template-columns: 1fr; }
+  .d-methods { grid-template-columns: 1fr; }
+  .d-recs { grid-template-columns: 1fr; }
+  .detail-meta { flex-wrap: wrap; }
+  .d-meta-block { border-right: none; border-bottom: 1px solid var(--border); }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" onclick="showPage('home')">EB</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+      <li><a onclick="showPage('work')" id="nav-work">Work</a></li>
+      <li><a onclick="showPage('after-hours')" id="nav-after-hours">After Hours</a></li>
+    </ul>
+    <a class="nav-cta" onclick="showPage('contact')">Say hello</a>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div id="home" class="page active">
+  <div class="home-hero">
+    <div class="home-dots"></div>
+    <p class="home-label fi">Design Researcher · Atlanta, GA</p>
+    <h1 class="home-h1 fi">Human-centered<br><span class="lime">research.</span></h1>
+    <div class="home-bottom fi">
+      <p class="home-statement">I am a design researcher with a background in biology, journalism, healthcare, and research commercialization. I move across industries because every field is just another set of humans with unmet needs.</p>
+      <div class="home-right-block">
+        <div class="home-stats">
+          <div class="home-stat"><span class="home-stat-val">5</span><span class="home-stat-label">Case Studies</span></div>
+          <div class="home-stat"><span class="home-stat-val">80+</span><span class="home-stat-label">Interviews</span></div>
+          <div class="home-stat"><span class="home-stat-val">5</span><span class="home-stat-label">Industries</span></div>
+        </div>
+        <div class="home-actions">
+          <button class="btn btn-lime" onclick="showPage('work')">View my work</button>
+          <button class="btn btn-outline" onclick="showPage('contact')">Get in touch</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WORK -->
+<div id="work" class="page">
+  <div class="work-wrap">
+    <p class="page-eyebrow fi">Work</p>
+    <h2 class="page-h1 fi">Research projects<br>across five industries.</h2>
+    <div class="case-list">
+      <div class="case-row fi" onclick="showCase('paper')">
+        <div class="case-num">01</div>
+        <div><div class="case-tags"><span class="case-tag">Market Research</span><span class="case-tag">Education</span><span class="case-tag">User Testing</span></div><div class="case-row-title">Who Needs Chemistry Without a Lab?</div><div class="case-row-desc">Explored new markets for paper titrators post-pandemic through 50+ interviews, reframing the product from pandemic replacement to classroom supplement.</div></div>
+        <div class="case-meta"><div class="meta-label">Role</div><div class="meta-val">Market Research Consultant</div><div class="meta-label">Duration</div><div class="meta-val">11 Months</div></div>
+      </div>
+      <div class="case-row fi" onclick="showCase('brex')">
+        <div class="case-num">02</div>
+        <div><div class="case-tags"><span class="case-tag">Fintech</span><span class="case-tag">Thematic Analysis</span><span class="case-tag">Stakeholder Interviews</span></div><div class="case-row-title">When Do Startups Finally Break Up with Their Bank?</div><div class="case-row-desc">Interviewed 11 startup founders to uncover banking barriers and motivations, delivering recommendations that helped Brex secure two new clients.</div></div>
+        <div class="case-meta"><div class="meta-label">Role</div><div class="meta-val">Freelance UX Researcher</div><div class="meta-label">Duration</div><div class="meta-val">2 Weeks</div></div>
+      </div>
+      <div class="case-row fi" onclick="showCase('soil')">
+        <div class="case-num">03</div>
+        <div><div class="case-tags"><span class="case-tag">Agriculture</span><span class="case-tag">Market Validation</span><span class="case-tag">User Testing</span></div><div class="case-row-title">Validating Market Fit for Innovative Soil Testing</div><div class="case-row-desc">Explored market adoption for a biological phosphorus soil testing method through 21 interviews and user testing with 19 participants.</div></div>
+        <div class="case-meta"><div class="meta-label">Role</div><div class="meta-val">Insight Analyst</div><div class="meta-label">Duration</div><div class="meta-val">5 Months</div></div>
+      </div>
+      <div class="case-row fi" onclick="showCase('clinic')">
+        <div class="case-num">04</div>
+        <div><div class="case-tags"><span class="case-tag">Healthcare</span><span class="case-tag">Systems Design</span><span class="case-tag">Operational Analysis</span></div><div class="case-row-title">How Might We Cut Clinical Training Time in Half?</div><div class="case-row-desc">Designed a documentation framework for an ophthalmology clinic, cutting onboarding from 6 weeks to 3 to 4 weeks and saving doctors 10+ minutes per appointment.</div></div>
+        <div class="case-meta"><div class="meta-label">Role</div><div class="meta-val">Clinical Technician</div><div class="meta-label">Duration</div><div class="meta-val">4 Months</div></div>
+      </div>
+      <div class="case-row fi" onclick="showCase('gleamin')">
+        <div class="case-num">05</div>
+        <div><div class="case-tags"><span class="case-tag">Labor Markets</span><span class="case-tag">Startup Research</span><span class="case-tag">User Discovery</span></div><div class="case-row-title">What If Your Work Could Become Equity?</div><div class="case-row-desc">As founder of GleanIn, built a labor marketplace where contributors earn deferred equity instead of cash, validated through founder interviews and a vetted contributor network.</div></div>
+        <div class="case-meta"><div class="meta-label">Role</div><div class="meta-val">Founder & Researcher</div><div class="meta-label">Stage</div><div class="meta-val">Active</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CASE DETAIL -->
+<div id="case-detail">
+  <div class="detail-wrap" id="detail-content"></div>
+</div>
+
+<!-- AFTER HOURS -->
+<div id="after-hours" class="page">
+  <div class="ah-wrap">
+    <p class="page-eyebrow fi">After Hours</p>
+    <h2 class="page-h1 fi">Life outside<br>the research.</h2>
+    <div class="ah-intro fi"><p>The same curiosity that drives my work shows up everywhere. Here is what I get up to when I am not in the field.</p></div>
+    <div class="ah-grid fi">
+      <div class="ah-item"><div class="ah-num">01</div><div class="ah-title">Running</div><div class="ah-body">I love running, usually on the trails in my neighborhood. I recently completed a half marathon and am training for a full. Logging miles on Strava gives me small wins every time I finish a run.</div></div>
+      <div class="ah-item"><div class="ah-num">02</div><div class="ah-title">Book Club</div><div class="ah-body">Tuesday night is book club night, a club I accidentally started. I overheard strangers talking about a book, thought it was a club, and joined in. It was not. We started one anyway.</div></div>
+      <div class="ah-item"><div class="ah-num">03</div><div class="ah-title">Writing</div><div class="ah-body">I write personal essays at the intersection of faith, memory, and everyday life. My work has been submitted to literary journals including Ruminate and Ekstasis. Writing is how I think slowly about things I cannot figure out quickly.</div></div>
+      <div class="ah-item"><div class="ah-num">04</div><div class="ah-title">Modeling</div><div class="ah-body">I model because I get to be a medium for artists communicating their vision to the world. It is exciting to see how clothes, photography, and styling come together into something.</div></div>
+      <div class="ah-item"><div class="ah-num">05</div><div class="ah-title">Film</div><div class="ah-body">I love movies that show lives far from mine but still feel relatable. Always open to good recs. Good Will Hunting is my all-time number one. Send me yours.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="page">
+  <div class="contact-wrap">
+    <p class="page-eyebrow fi">Contact</p>
+    <h2 class="contact-h1 fi">Always curious,<br><span class="lime">always open.</span></h2>
+    <p class="contact-sub fi">Whether you have a research challenge, a collaboration idea, or just want to talk, I would love to hear from you.</p>
+    <div class="contact-list fi">
+      <a href="mailto:elshadayhere@gmail.com" class="contact-link"><div class="cl-left"><span class="cl-label">Email</span><span class="cl-val">elshadayhere@gmail.com</span></div><span class="cl-arrow">↗</span></a>
+      <a href="https://www.linkedin.com/in/elshaday-bikis" target="_blank" class="contact-link"><div class="cl-left"><span class="cl-label">LinkedIn</span><span class="cl-val">/in/elshaday-bikis</span></div><span class="cl-arrow">↗</span></a>
+      <a href="https://github.com/elti13" target="_blank" class="contact-link"><div class="cl-left"><span class="cl-label">GitHub</span><span class="cl-val">github.com/elti13</span></div><span class="cl-arrow">↗</span></a>
+    </div>
+    <p class="contact-note fi">Based in Atlanta, GA · Open to research roles and collaborations</p>
+  </div>
+</div>
+
+<script>
+const cases = {
+  paper: {
+    kicker: "Market Research · Education · User Testing",
+    title: "Who Needs Chemistry Without a Lab?",
+    sub: "Discovering new opportunities for paper microfluidic labware in educational settings post-pandemic.",
+    role: "Market Research Consultant", company: "Paper Analytics / Notre Dame", duration: "11 Months",
+    body: `<div class="d-h2">Context</div><p class="d-p">Paper Analytics, a startup out of Notre Dame, created paper titrators: paper-based lab tools that change color to indicate chemical reactions. During the pandemic, colleges adopted them widely. But once labs reopened, adoption collapsed. Paper Analytics needed to find out who else might need them.</p><div class="d-h2">The Challenge</div><p class="d-p">Who needs chemistry education, lacks lab access, and values safety and affordability?</p><div class="d-h2">Methodologies</div><div class="d-methods"><div class="d-method"><div class="d-method-name">Stakeholder Interviews</div><div class="d-method-desc">50+ interviews with professors, educators, students, prison staff, and homeschooling parents</div></div><div class="d-method"><div class="d-method-name">User Testing</div><div class="d-method-desc">Tested paper titrators in high schools to gather real usability feedback</div></div><div class="d-method"><div class="d-method-name">Qualitative Analysis</div><div class="d-method-desc">Analyzed interview and testing data to identify patterns and market signals</div></div></div><div class="d-h2">Exploration Journey</div><ul class="d-ul"><li><strong>Correctional facilities</strong> seemed promising given Pell Grant funding, but strict chemical restrictions made lab tools a non-starter</li><li><strong>Underfunded high schools</strong> showed promise but glassware was still required for AP exams</li><li><strong>Homeschooling</strong> parents wanted bundled all-in-one kits, not standalone tools</li></ul><div class="d-pull"><p>"Teachers did not want to replace traditional labs. They wanted a safe, affordable supplement."</p></div><div class="d-h2">Outcome</div><div class="d-outcome"><p>Helped Paper Analytics identify a viable path: not a pandemic stopgap, but a flexible classroom aid at $0.05 per unit that meets teachers where they actually are.</p></div><div class="d-h2">Key Learnings</div><div class="d-learnings"><div class="d-learning"><div class="d-learning-title">Validated hypothesis does not equal adoption</div><div class="d-learning-body">External constraints like AP requirements blocked adoption even when the product was genuinely valued.</div></div><div class="d-learning"><div class="d-learning-title">Context matters in storytelling</div><div class="d-learning-body">Good research presentation means stepping back to give your audience the context they need before diving in.</div></div></div>`
+  },
+  brex: {
+    kicker: "Fintech · Stakeholder Interviews · Thematic Analysis",
+    title: "When Do Startups Finally Break Up with Their Bank?",
+    sub: "Uncovering why startups were not switching to Brex business accounts and what would motivate them to move their money.",
+    role: "Freelance UX Researcher", company: "Brex", duration: "2 Weeks",
+    body: `<div class="d-h2">Overview</div><p class="d-p">Brex was expanding from credit cards into business accounts and wanted to understand: when do founders actually consider moving their money, and what pushes them over the edge? I was brought in to uncover the triggers, barriers, and motivations behind startup banking decisions.</p><div class="d-h2">Methodologies</div><div class="d-methods"><div class="d-method"><div class="d-method-name">Stakeholder Interviews</div><div class="d-method-desc">11 in-depth interviews with startup founders across Brex customers and non-customers</div></div><div class="d-method"><div class="d-method-name">Thematic Analysis</div><div class="d-method-desc">Identified key themes across participants to surface decision-making patterns</div></div><div class="d-method"><div class="d-method-name">Hypothesis Refinement</div><div class="d-method-desc">Continuously refined research focus based on early findings</div></div></div><div class="d-h2">Key Findings</div><div class="d-findings"><div class="d-finding"><div class="d-finding-stat">7/11</div><div class="d-finding-text">selected their bank based on recommendations from colleagues, university networks, or investors</div></div><div class="d-finding"><div class="d-finding-stat">6/11</div><div class="d-finding-text">identified poor user interface as a reason for wanting to switch</div></div><div class="d-finding"><div class="d-finding-stat">5/11</div><div class="d-finding-text">cited re-subscribing to software services as the major switching barrier</div></div><div class="d-finding"><div class="d-finding-stat">5/11</div><div class="d-finding-text">sought better interest rates as they raised more funds</div></div></div><div class="d-pull"><p>"Startups are most receptive to switching during funding rounds. Timing matters more than features."</p></div><div class="d-h2">Recommendations</div><div class="d-recs"><div class="d-rec"><div class="d-rec-title">Target funding rounds</div><div class="d-rec-body">Focus outreach on startups at significant funding milestones when they are most open to switching.</div></div><div class="d-rec"><div class="d-rec-title">Leverage existing users</div><div class="d-rec-body">Promote business accounts to Brex cardholders through in-app notifications. Founders check notification bars.</div></div><div class="d-rec"><div class="d-rec-title">Quantify long-term value</div><div class="d-rec-body">Build an interactive savings calculator showing potential savings over five years.</div></div><div class="d-rec"><div class="d-rec-title">Automate re-subscription</div><div class="d-rec-body">Build a tool that tracks and transfers recurring payments when switching, removing the number one friction point.</div></div></div><div class="d-h2">Outcome</div><div class="d-outcome"><p>The project helped Brex secure two new clients by surfacing actionable insights into startup founders' banking pain points and motivations.</p></div><div class="d-h2">Key Learnings</div><div class="d-learnings"><div class="d-learning"><div class="d-learning-title">Timing matters more than features</div><div class="d-learning-body">The right moment in a company's journey can matter more than product superiority when it comes to adoption.</div></div><div class="d-learning"><div class="d-learning-title">Do not underestimate practical barriers</div><div class="d-learning-body">Research must examine what prevents adoption, not just what attracts. Friction is often more decisive than value.</div></div></div>`
+  },
+  soil: {
+    kicker: "Agriculture · Market Validation · User Testing",
+    title: "Validating Market Fit for Innovative Soil Testing",
+    sub: "Exploring market adoption for a novel biological process to measure bio-available phosphorus in soil.",
+    role: "Insight Analyst", company: "IDEA Center, University of Notre Dame", duration: "5 Months",
+    body: `<div class="d-h2">Overview</div><p class="d-p">I was tasked with validating market interest for a soil testing method that measures bio-available phosphorus using a biological process, designed to be more accurate than existing chemical-based methods.</p><div class="d-h2">Methodologies</div><div class="d-methods"><div class="d-method"><div class="d-method-name">Stakeholder Interviews</div><div class="d-method-desc">21 in-depth interviews with farmers, gardeners, and soil testing professionals</div></div><div class="d-method"><div class="d-method-name">Competitive Analysis</div><div class="d-method-desc">Examined existing soil testing methods and market positioning</div></div><div class="d-method"><div class="d-method-name">User Testing</div><div class="d-method-desc">Evaluated usability with 19 participants to gather hands-on feedback</div></div></div><div class="d-h2">Key Findings</div><div class="d-findings"><div class="d-finding"><div class="d-finding-stat">9/20</div><div class="d-finding-text">found the idea interesting, but interest did not translate to purchase intent</div></div><div class="d-finding"><div class="d-finding-stat">5/20</div><div class="d-finding-text">were genuinely excited and willing to try the product</div></div><div class="d-finding"><div class="d-finding-stat">31.5%</div><div class="d-finding-text">expressed willingness to try after hands-on testing</div></div></div><div class="d-h2">Recommendations</div><div class="d-recs"><div class="d-rec"><div class="d-rec-title">Reduce testing time</div><div class="d-rec-body">The 4-day period was too slow. This was the primary barrier to adoption.</div></div><div class="d-rec"><div class="d-rec-title">Expand capabilities</div><div class="d-rec-body">Add nitrogen, potassium, and calcium. Users wanted a full soil health picture, not just one metric.</div></div><div class="d-rec"><div class="d-rec-title">Lead with eco value</div><div class="d-rec-body">Environmentally conscious farmers were the most receptive segment. Market to them directly.</div></div><div class="d-rec"><div class="d-rec-title">Target the right segment</div><div class="d-rec-body">Focus on sustainable agriculture practitioners rather than conventional farmers.</div></div></div><div class="d-h2">Outcome</div><div class="d-outcome"><p>Immediate adoption was unlikely. But the research revealed a clear path: faster testing and expanded nutrients could make this viable for environmentally conscious agricultural professionals.</p></div><div class="d-h2">Key Learning</div><div class="d-learnings"><div class="d-learning"><div class="d-learning-title">"Interesting" does not mean "interested"</div><div class="d-learning-body">Polite enthusiasm often masks a lack of purchase intent. Concrete adoption indicators matter more than surface-level excitement.</div></div></div>`
+  },
+  clinic: {
+    kicker: "Healthcare · Systems Design · Operational Analysis",
+    title: "How Might We Cut Clinical Training Time in Half?",
+    sub: "Designing documentation and training systems at an ophthalmology clinic to improve staff efficiency and patient outcomes.",
+    role: "Clinical Technician", company: "Eye Physicians and Surgeons", duration: "4 Months",
+    body: `<div class="d-h2">Overview</div><p class="d-p">At a high-volume ophthalmology clinic serving 120 to 250 patients daily, I trained new clinical technicians from all backgrounds: pre-med students, insurance workers, film editors. Onboarding typically took six weeks. I personally trained more than half the clinic's technical staff and built the system that changed that timeline.</p><div class="d-h2">The Challenge</div><p class="d-p">New techs could not consistently connect patient symptoms to relevant medical history, leading to incomplete documentation, frustrated doctors, and patient backlogs.</p><div class="d-h2">The Approach</div><ul class="d-ul"><li><strong>Quality</strong> — quality of vision: blurry, glare, double vision</li><li><strong>Associated Symptoms</strong> — physical issues like pain or discomfort</li><li><strong>Pertinent Negatives</strong> — red flag questions that should stay negative: flashes, floaters, headaches</li></ul><p class="d-p">I translated medical jargon into natural-language memory hooks and built condition-specific guides for cataract evaluations, glaucoma follow-ups, and diabetes exams.</p><div class="d-h2">Outcome</div><div class="d-findings"><div class="d-finding"><div class="d-finding-stat">33-50%</div><div class="d-finding-text">reduction in onboarding time, from six weeks to 3 to 4 weeks</div></div><div class="d-finding"><div class="d-finding-stat">10+ min</div><div class="d-finding-text">saved per appointment as doctors received more accurate patient histories</div></div><div class="d-finding"><div class="d-finding-stat">20+</div><div class="d-finding-text">people personally trained through the new system</div></div></div><div class="d-h2">Key Learnings</div><div class="d-learnings"><div class="d-learning"><div class="d-learning-title">Frameworks guide conversations</div><div class="d-learning-body">The framework gave trainees control. They felt less overwhelmed because it kept them from getting lost in patient stories.</div></div><div class="d-learning"><div class="d-learning-title">Memory hooks outperform lists</div><div class="d-learning-body">Translating jargon into intuitive prompts accelerated learning far faster than expected.</div></div></div>`
+  },
+  gleamin: {
+    kicker: "Labor Markets · Startup Research · User Discovery",
+    title: "What If Your Work Could Become Equity?",
+    sub: "As founder of GleanIn, building a labor marketplace where contributors earn deferred equity instead of cash, starting from a problem I lived firsthand.",
+    role: "Founder & Researcher", company: "GleanIn", duration: "Active",
+    body: `<div class="d-h2">The Origin</div><p class="d-p">GleanIn did not start with a pitch deck. It started with people showing up. When I began building my first startup, people around me wanted to help but there was no money to pay them. They contributed anyway: consulting, market analysis, competitive research, technical work, sales outreach. The question that kept surfacing was: how do you fairly compensate people who are betting on something before it has value?</p><div class="d-pull"><p>"The work was real. The compensation structure did not exist yet. GleanIn is the answer to that gap."</p></div><div class="d-h2">What GleanIn Does</div><p class="d-p">GleanIn is a two-sided labor marketplace connecting early-stage founders with vetted contributors. Instead of cash, contributors earn deferred equity through a Labor SAFE: a financial instrument where compensation for work done converts into equity when the company raises a qualifying funding round. GleanIn is the first platform to operationalize this model at scale.</p><div class="d-h2">The Research Challenge</div><p class="d-p">Before building the platform, I needed to understand two sides of a cold start problem. Would founders trust a compensation model they had never used? And would contributors take on real work without upfront pay?</p><div class="d-h2">Methodologies</div><div class="d-methods"><div class="d-method"><div class="d-method-name">Founder Discovery Interviews</div><div class="d-method-desc">Mom Test-style interviews with early-stage founders to surface real pain points around building early teams without cash</div></div><div class="d-method"><div class="d-method-name">Contributor Validation</div><div class="d-method-desc">Recruited and onboarded campus ambassadors at Emory University to test the contributor experience and refine onboarding</div></div><div class="d-method"><div class="d-method-name">Instrument Design</div><div class="d-method-desc">Worked through the legal and structural design of the Labor SAFE to ensure it was enforceable, fair, and readable by non-lawyers</div></div></div><div class="d-h2">Key Findings</div><div class="d-findings"><div class="d-finding"><div class="d-finding-stat">2</div><div class="d-finding-text">active campus ambassadors operating under executed Labor SAFEs at Emory University</div></div><div class="d-finding"><div class="d-finding-stat">1st</div><div class="d-finding-text">platform to operationalize the Labor SAFE as a compensation instrument in a marketplace context</div></div><div class="d-finding"><div class="d-finding-stat">5</div><div class="d-finding-text">industries validated through prior research informing GleanIn's cross-sector positioning</div></div></div><div class="d-h2">What the Research Shaped</div><div class="d-recs"><div class="d-rec"><div class="d-rec-title">Contributor vetting</div><div class="d-rec-body">Founders did not just want help. They wanted help they could trust. This shaped GleanIn's emphasis on vetting before surfacing contributors.</div></div><div class="d-rec"><div class="d-rec-title">Plain language onboarding</div><div class="d-rec-body">Research showed both founders and contributors needed the Labor SAFE explained without legal jargon before engaging.</div></div><div class="d-rec"><div class="d-rec-title">Two-sided trust</div><div class="d-rec-body">The platform needed credibility on both sides simultaneously. A founder would not post without contributors. A contributor would not join without real opportunities.</div></div><div class="d-rec"><div class="d-rec-title">Campus-first strategy</div><div class="d-rec-body">Starting at Emory and Georgia Tech gave GleanIn a focused contributor pool with high ambition and appetite for non-traditional compensation.</div></div></div><div class="d-h2">Status</div><div class="d-outcome"><p>GleanIn is actively operating with its first contributors and refining the platform based on real usage. The product site was built using HTML and CSS with AI-assisted development, deployed on GitHub Pages. The next phase involves expanding the contributor network and onboarding the first paying founders.</p></div>`
+  }
+};
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('case-detail').classList.remove('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const page = document.getElementById(id);
+  if (page) { page.classList.add('active'); window.scrollTo(0,0); }
+  const nav = document.getElementById('nav-' + id);
+  if (nav) nav.classList.add('active');
+}
+
+function showCase(id) {
+  const c = cases[id];
+  if (!c) return;
+  document.getElementById('detail-content').innerHTML = `
+    <button class="detail-back" onclick="showPage('work')">← Back to Work</button>
+    <p class="detail-kicker">${c.kicker}</p>
+    <h1 class="detail-h1">${c.title}</h1>
+    <p class="detail-sub">${c.sub}</p>
+    <div class="detail-meta">
+      <div class="d-meta-block"><div class="d-meta-lbl">Role</div><div class="d-meta-val">${c.role}</div></div>
+      <div class="d-meta-block"><div class="d-meta-lbl">Company</div><div class="d-meta-val">${c.company}</div></div>
+      <div class="d-meta-block"><div class="d-meta-lbl">Duration</div><div class="d-meta-val">${c.duration}</div></div>
+    </div>
+    ${c.body}
+  `;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('case-detail').classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById('nav-work').classList.add('active');
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
